@@ -19,6 +19,14 @@ public class User {
         this.email = updateUser.email;
     }
 
+    public boolean matchPassword(String password) {
+        if (password == null) {
+            return false;
+        }
+
+        return this.password.equals(password);
+    }
+
     public String getUserId() {
         return userId;
     }
