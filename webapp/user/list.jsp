@@ -62,7 +62,7 @@
                 <li class="active"><a href="../index.html">Posts</a></li>
                 <c:choose>
                     <c:when test="${not empty sessionScope.user}">
-                        <li><a href="user/logout" role="button">로그아웃</a></li>
+                        <li><a href="/user/logout" role="button">로그아웃</a></li>
                         <li><a href="/user/update.jsp" role="button">개인정보수정</a></li>
                     </c:when>
                     <c:otherwise>
@@ -93,7 +93,6 @@
                     <tr>
                         <th scope="row">${status.count}</th>
                         <td>${user.userId}</td>
-                        <input type="hidden" id="userId" name="userId" value="${user.userId}"/>
                         <td>${user.name}</td>
                         <td>${user.email}</td>
                         <td><a href="/user/update?userId=${user.userId}" class="btn btn-success" role="button">수정</a>
