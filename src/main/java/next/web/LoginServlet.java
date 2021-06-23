@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
 
         if (loginUser == null) {
             request.setAttribute("loginFailed", true);
-            forward("/user/login.html", request, response);
+            forward("/user/login_failed.html", request, response);
             return;
         }
 
@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("/");
         } else {
             request.setAttribute("loginFailed", true);
-            forward("/user/login.html", request, response);
+            forward("/user/login_failed.html", request, response);
         }
     }
 
