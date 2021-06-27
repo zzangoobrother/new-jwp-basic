@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import core.db.DataBase;
 
-@WebServlet("/user/list")
+//@WebServlet("/user/list")
 public class ListUserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
