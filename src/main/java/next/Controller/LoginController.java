@@ -2,6 +2,7 @@ package next.Controller;
 
 import core.db.DataBase;
 import core.mvc.Controller;
+import next.dao.UserDao;
 import next.model.User;
 import next.web.UserSessionUtils;
 
@@ -12,7 +13,8 @@ import javax.servlet.http.HttpSession;
 public class LoginController implements Controller {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        User loginUser = DataBase.findUserById(request.getParameter("userId"));
+        UserDao userDao = new UserDao();
+        User loginUser = userDao.findByUserId(request.getParameter("userId"));
 
         if (loginUser == null) {
             request.setAttribute("loginFailed", true);

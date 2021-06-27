@@ -2,6 +2,7 @@ package next.Controller;
 
 import core.db.DataBase;
 import core.mvc.Controller;
+import next.dao.UserDao;
 import next.web.UserSessionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,8 @@ public class ListUserController implements Controller {
             return "redirecct:/users/loginForm";
         }
 
-        request.setAttribute("users", DataBase.findAll());
+        UserDao userDao = new UserDao();
+        request.setAttribute("users", userDao.findAll());
         return "/user/list.jsp";
     }
 }
