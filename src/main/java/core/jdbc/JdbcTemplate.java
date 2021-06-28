@@ -6,15 +6,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public abstract class InsertJdbcTemplate {
-    public void insert(User user) throws SQLException {
+public abstract class JdbcTemplate {
+    public void update(User user) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = ConnectionManager.getConnection();
 
-            pstmt = con.prepareStatement(createQueryForInsert());
-            setValuesForInsert(user, pstmt);
+            pstmt = con.prepareStatement(createQuery());
+            setValues(user, pstmt);
             pstmt.executeUpdate();
         } finally {
             if (pstmt != null) {
@@ -27,7 +27,7 @@ public abstract class InsertJdbcTemplate {
         }
     }
 
-    abstract public void setValuesForInsert(User user, PreparedStatement pstmt) throws SQLException;
+    abstract public String createQuery();
 
-    abstract public String createQueryForInsert();
+    abstract public void setValues(User user, PreparedStatement pstmt) throws SQLException;
 }

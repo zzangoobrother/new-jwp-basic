@@ -10,27 +10,28 @@ import java.util.List;
 
 import core.jdbc.ConnectionManager;
 import core.jdbc.InsertJdbcTemplate;
+import core.jdbc.JdbcTemplate;
 import core.jdbc.UpdateJdbcTemplate;
 import next.model.User;
 
 public class UserDao {
     public void insert(User user) throws SQLException {
-        InsertJdbcTemplate insertJdbcTemplate = new InsertJdbcTemplate() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate() {
             @Override
-            public void setValuesForInsert(User user, PreparedStatement pstmt) throws SQLException {
+            public String createQuery() {
+                return "INSERT INTO USERS VALUES (?, ?, ?, ?)";
+            }
+
+            @Override
+            public void setValues(User user, PreparedStatement pstmt) throws SQLException {
                 pstmt.setString(1, user.getUserId());
                 pstmt.setString(2, user.getPassword());
                 pstmt.setString(3, user.getName());
                 pstmt.setString(4, user.getEmail());
             }
-
-            @Override
-            public String createQueryForInsert() {
-                return "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-            }
         };
 
-        insertJdbcTemplate.insert(user);
+        jdbcTemplate.update(user);
     }
 
     public User findByUserId(String userId) throws SQLException {
@@ -99,20 +100,21 @@ public class UserDao {
     }
 
     public void update(User user) throws SQLException {
-        UpdateJdbcTemplate updateJdbcTemplate = new UpdateJdbcTemplate() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate() {
             @Override
-            public String createQueryForUpdate() {
+            public String createQuery() {
                 return "UPDATE USERS SET password = ?, name = ?, email = ? WHERE userId = ?";
             }
 
             @Override
-            public void setValuesForUpdate(User user, PreparedStatement pstmt) throws SQLException {
+            public void setValues(User user, PreparedStatement pstmt) throws SQLException {
                 pstmt.setString(1, user.getPassword());
                 pstmt.setString(2, user.getName());
                 pstmt.setString(3, user.getEmail());
                 pstmt.setString(4, user.getUserId());
             }
         };
-        updateJdbcTemplate.update(user);
+
+        jdbcTemplate.update(user);
     }
 }
