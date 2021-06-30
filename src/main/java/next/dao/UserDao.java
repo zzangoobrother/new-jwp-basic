@@ -9,10 +9,11 @@ import java.util.Collection;
 import java.util.List;
 
 import core.jdbc.*;
+import next.Exception.DataAccessException;
 import next.model.User;
 
 public class UserDao {
-    public void insert(User user) throws SQLException {
+    public void insert(User user) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
         PreparedStatementSetter pss = new PreparedStatementSetter() {
@@ -28,7 +29,7 @@ public class UserDao {
         jdbcTemplate.update(sql, pss);
     }
 
-    public User findByUserId(String userId) throws SQLException {
+    public User findByUserId(String userId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
         PreparedStatementSetter pss = new PreparedStatementSetter() {
@@ -38,9 +39,9 @@ public class UserDao {
             }
         };
 
-        RowMapper rowMapper = new RowMapper() {
+        RowMapper<User> rowMapper = new RowMapper<User>() {
             @Override
-            public Object mapRow(ResultSet rs) throws SQLException {
+            public User mapRow(ResultSet rs) throws SQLException {
                 return new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
                         rs.getString("email"));
             }
@@ -49,7 +50,7 @@ public class UserDao {
         return (User) jdbcTemplate.queryForObject(sql, pss, rowMapper);
     }
 
-    public Collection<User> findAll() throws SQLException {
+    public Collection<User> findAll() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
         PreparedStatementSetter pss = new PreparedStatementSetter() {
@@ -59,9 +60,9 @@ public class UserDao {
             }
         };
 
-        RowMapper rowMapper = new RowMapper() {
+        RowMapper<User> rowMapper = new RowMapper<User>() {
             @Override
-            public Object mapRow(ResultSet rs) throws SQLException {
+            public User mapRow(ResultSet rs) throws SQLException {
                 return new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
                         rs.getString("email"));
             }
@@ -70,7 +71,7 @@ public class UserDao {
         return jdbcTemplate.query(sql, pss, rowMapper);
     }
 
-    public void update(User user) throws SQLException {
+    public void update(User user) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
         PreparedStatementSetter pss = new PreparedStatementSetter() {
