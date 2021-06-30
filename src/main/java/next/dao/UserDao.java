@@ -21,13 +21,18 @@ public class UserDao {
                 pstmt.setString(3, user.getName());
                 pstmt.setString(4, user.getEmail());
             }
+
+            @Override
+            public Object mapRow(ResultSet rs) throws SQLException {
+                return null;
+            }
         };
         String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql);
     }
 
     public User findByUserId(String userId) throws SQLException {
-        SelectJdbcTemplate selectJdbcTemplate = new SelectJdbcTemplate() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate() {
             @Override
             public void setValues(PreparedStatement pstmt) throws SQLException {
                 pstmt.setString(1, userId);
@@ -40,11 +45,11 @@ public class UserDao {
             }
         };
         String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-        return (User) selectJdbcTemplate.queryForObject(sql);
+        return (User) jdbcTemplate.queryForObject(sql);
     }
 
     public Collection<User> findAll() throws SQLException {
-        SelectJdbcTemplate selectJdbcTemplate = new SelectJdbcTemplate() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate() {
             @Override
             public void setValues(PreparedStatement pstmt) throws SQLException {
 
@@ -57,7 +62,7 @@ public class UserDao {
             }
         };
         String sql = "SELECT * FROM USERS";
-        return selectJdbcTemplate.query(sql);
+        return jdbcTemplate.query(sql);
     }
 
     public void update(User user) throws SQLException {
@@ -68,6 +73,11 @@ public class UserDao {
                 pstmt.setString(2, user.getName());
                 pstmt.setString(3, user.getEmail());
                 pstmt.setString(4, user.getUserId());
+            }
+
+            @Override
+            public Object mapRow(ResultSet rs) throws SQLException {
+                return null;
             }
         };
         String sql = "UPDATE USERS SET password = ?, name = ?, email = ? WHERE userId = ?";
