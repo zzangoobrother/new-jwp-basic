@@ -9,15 +9,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class JdbcTemplate {
-    public void update(String sql) throws SQLException {
+public class JdbcTemplate {
+    public void update(String sql, PreparedStatementSetter pss) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
             con = ConnectionManager.getConnection();
 
             pstmt = con.prepareStatement(sql);
-            setValues(pstmt);
+            pss.setValues(pstmt);
             pstmt.executeUpdate();
         } finally {
             if (pstmt != null) {
@@ -30,7 +30,7 @@ public abstract class JdbcTemplate {
         }
     }
 
-    public List<User> query(String sql) throws SQLException {
+    public List<User> query(String sql, PreparedStatementSetter pss, RowMapper rowMapper) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -39,11 +39,11 @@ public abstract class JdbcTemplate {
         try {
             con = ConnectionManager.getConnection();
             pstmt = con.prepareStatement(sql);
-            setValues(pstmt);
+            pss.setValues(pstmt);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                users.add((User) mapRow(rs));
+                users.add((User) rowMapper.mapRow(rs));
             }
             return users;
         } finally {
@@ -61,15 +61,11 @@ public abstract class JdbcTemplate {
         }
     }
 
-    public Object queryForObject(String sql) throws SQLException {
-        List<User> users = query(sql);
+    public Object queryForObject(String sql, PreparedStatementSetter pss, RowMapper rowMapper) throws SQLException {
+        List<User> users = query(sql, pss, rowMapper);
         if (users.isEmpty()) {
             return null;
         }
         return users.get(0);
     }
-
-    abstract public void setValues(PreparedStatement pstmt) throws SQLException;
-
-    abstract public Object mapRow(ResultSet rs) throws SQLException;
 }
