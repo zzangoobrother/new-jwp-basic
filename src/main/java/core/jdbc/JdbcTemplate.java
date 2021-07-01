@@ -1,7 +1,6 @@
 package core.jdbc;
 
 import next.Exception.DataAccessException;
-import next.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,13 +20,16 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> List<T> query(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper) throws DataAccessException {
+    public void update(String sql, Object... parameters) throws DataAccessException {
+        update(sql, createPreparedStatementSetter(parameters));
+    }
+
+    public <T> List<T> query(String sql, RowMapper<T> rowMapper, PreparedStatementSetter pss) throws DataAccessException {
         ResultSet rs = null;
 
         List<T> users = new ArrayList<>();
         try(Connection con = ConnectionManager.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql)) {
-
             pss.setValues(pstmt);
             rs = pstmt.executeQuery();
 
@@ -48,11 +50,30 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> T queryForObject(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper) throws DataAccessException {
-        List<T> users = query(sql, pss, rowMapper);
+    public <T> List<T> query(String sql, RowMapper<T> rowMapper, Object... parameters) throws DataAccessException {
+       return query(sql, rowMapper, createPreparedStatementSetter(parameters));
+    }
+
+    public <T> T queryForObject(String sql, RowMapper<T> rowMapper, PreparedStatementSetter pss) throws DataAccessException {
+        List<T> users = query(sql, rowMapper, pss);
         if (users.isEmpty()) {
             return null;
         }
         return users.get(0);
+    }
+
+    public <T> T queryForObject(String sql, RowMapper<T> rowMapper, Object... parameters) throws DataAccessException {
+        return queryForObject(sql, rowMapper, createPreparedStatementSetter(parameters));
+    }
+
+    private PreparedStatementSetter createPreparedStatementSetter(Object... parameters) {
+        return new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement pstmt) throws SQLException {
+                for (int i = 0; i < parameters.length; i++) {
+                    pstmt.setObject(i+1, parameters[i]);
+                }
+            }
+        };
     }
 }
