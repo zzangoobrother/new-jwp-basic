@@ -20,6 +20,7 @@ public class ContextLoaderListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("jwp.sql"));
+        populator.setSqlScriptEncoding("UTF-8");
         DatabasePopulatorUtils.execute(populator, ConnectionManager.getDataSource());
 
         logger.info("Completed Load ServletContext!");

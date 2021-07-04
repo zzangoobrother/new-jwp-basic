@@ -1,6 +1,8 @@
 package core.mvc;
 
 import next.Controller.*;
+import next.Controller.qna.ShowController;
+import next.Controller.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +24,7 @@ public class RequestMapping {
         mappings.put("/users/create", new CreateUserController());
         mappings.put("/users/updateForm", new UpdateFormUserController());
         mappings.put("/users/update", new UpdateUserController());
+        mappings.put("/qna/show", new ShowController());
 
         log.info("Initialized Request Mapping!");
     }

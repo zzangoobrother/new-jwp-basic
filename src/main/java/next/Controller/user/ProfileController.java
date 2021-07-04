@@ -1,4 +1,4 @@
-package next.Controller;
+package next.Controller.user;
 
 import core.db.DataBase;
 import core.mvc.Controller;
