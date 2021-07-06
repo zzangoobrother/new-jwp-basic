@@ -3,6 +3,7 @@ package next.dao;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.RowMapper;
 import next.model.Question;
+import next.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
