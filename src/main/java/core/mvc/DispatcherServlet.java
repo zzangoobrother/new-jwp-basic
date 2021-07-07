@@ -31,21 +31,11 @@ public class DispatcherServlet extends HttpServlet {
 
         Controller controller = rm.findController(uri);
         try {
-            String viewName = controller.execute(request, response);
-            move(viewName, request, response);
+            View view = controller.execute(request, response);
+            view.render(request, response);
         } catch (Throwable e) {
             log.error("Exception : {}", e);
             throw new ServletException(e.getMessage());
         }
-    }
-
-    private void move(String viewName, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (viewName.startsWith(DEFAULT_REDIRECT_PREFIX)) {
-            response.sendRedirect(viewName.substring(DEFAULT_REDIRECT_PREFIX.length()));
-            return;
-        }
-
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(viewName);
-        requestDispatcher.forward(request, response);
     }
 }

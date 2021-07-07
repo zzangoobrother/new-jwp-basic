@@ -1,6 +1,8 @@
 package next.Controller.user;
 
 import core.mvc.Controller;
+import core.mvc.JspView;
+import core.mvc.View;
 import next.dao.UserDao;
 import next.web.UserSessionUtils;
 import org.slf4j.Logger;
@@ -13,13 +15,13 @@ public class ListUserController implements Controller {
     private static final Logger log = LoggerFactory.getLogger(ListUserController.class);
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (!UserSessionUtils.isLogin(request.getSession())) {
-            return "redirecct:/users/loginForm";
+            return new JspView("redirecct:/users/loginForm");
         }
 
         UserDao userDao = new UserDao();
         request.setAttribute("users", userDao.findAll());
-        return "/user/list.jsp";
+        return new JspView("/user/list.jsp");
     }
 }

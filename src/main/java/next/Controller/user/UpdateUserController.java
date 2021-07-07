@@ -1,6 +1,8 @@
 package next.Controller.user;
 
 import core.mvc.Controller;
+import core.mvc.JspView;
+import core.mvc.View;
 import next.dao.UserDao;
 import next.model.User;
 import next.web.UserSessionUtils;
@@ -10,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class UpdateUserController implements Controller {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         UserDao userDao = new UserDao();
 
         User user = userDao.findByUserId(request.getParameter("userId"));
@@ -22,6 +24,6 @@ public class UpdateUserController implements Controller {
                 request.getParameter("name"), request.getParameter("email"));
 
         userDao.update(updateUser);
-        return "redirect:/";
+        return new JspView("redirect:/");
     }
 }
