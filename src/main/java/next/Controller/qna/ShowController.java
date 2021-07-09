@@ -1,8 +1,6 @@
 package next.Controller.qna;
 
-import core.mvc.Controller;
-import core.mvc.JspView;
-import core.mvc.View;
+import core.mvc.*;
 import next.dao.AnswerDao;
 import next.dao.QuestionDao;
 import next.model.Answer;
@@ -12,16 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class ShowController implements Controller {
+public class ShowController extends AbstractController {
+    private QuestionDao questionDao = new QuestionDao();
+    private AnswerDao answerDao = new AnswerDao();
+
     @Override
-    public View execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Long questionId = Long.parseLong(request.getParameter("questionId"));
-        QuestionDao questionDao = new QuestionDao();
-        AnswerDao answerDao = new AnswerDao();
 
-        request.setAttribute("question", questionDao.findById(questionId));
-        request.setAttribute("answers", answerDao.findAllByQuestionId(questionId));
-
-        return new JspView("/qna/show.jsp");
+        return jspView("/qna/show.jsp")
+                .addObject("question", questionDao.findById(questionId))
+                .addObject("answers", answerDao.findAllByQuestionId(questionId));
     }
 }

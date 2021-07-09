@@ -10,14 +10,16 @@ function addAnswer(e) {
     url : '/api/qna/addAnswer',
     data : queryString,
     dataType : 'json',
-    error : onError(),
+    error : onError,
     success : onSuccess,
   });
 }
 
-function onSuccess(json, status){
+function onSuccess(data, status){
+  alert(data.writer);
+  alert(data.contents);
   var answerTemplate = $("#answerTemplate").html();
-  var template = answerTemplate.format(json.writer, new Date(json.createdDate), json.contents, json.answerId, json.answerId);
+  var template = answerTemplate.format(data.writer, new Date(data.createdDate), data.contents, data.answerId, data.answerId);
   $(".qna-comment-slipp-articles").prepend(template);
 }
 

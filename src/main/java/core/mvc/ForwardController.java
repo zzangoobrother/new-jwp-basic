@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ForwardController implements Controller {
+public class ForwardController extends AbstractController {
     private static final Logger log = LoggerFactory.getLogger(ForwardController.class);
     private String url;
 
@@ -15,7 +15,7 @@ public class ForwardController implements Controller {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return url;
+    public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return jspView(url);
     }
 }
