@@ -1,9 +1,7 @@
 package core.mvc;
 
 import next.Controller.*;
-import next.Controller.qna.AddAnswerController;
-import next.Controller.qna.DeleteAnswerController;
-import next.Controller.qna.ShowController;
+import next.Controller.qna.*;
 import next.Controller.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +24,9 @@ public class RequestMapping {
         mappings.put("/users/create", new CreateUserController());
         mappings.put("/users/updateForm", new UpdateFormUserController());
         mappings.put("/users/update", new UpdateUserController());
-        mappings.put("/qna/show", new ShowController());
+        mappings.put("/qna/show", new ShowQuestionController());
+        mappings.put("/qna/form", new CreateFormQuestionController());
+        mappings.put("/qna/create", new CreateQuestionController());
         mappings.put("/api/qna/addAnswer", new AddAnswerController());
         mappings.put("/api/qna/deleteAnswer", new DeleteAnswerController());
 
