@@ -31,6 +31,10 @@ public class User {
         return userId.equals(user.userId);
     }
 
+    public boolean isSameUser(String newUserId) {
+        return this.userId.equals(newUserId);
+    }
+
     public String getUserId() {
         return userId;
     }

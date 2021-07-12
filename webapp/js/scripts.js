@@ -16,8 +16,6 @@ function addAnswer(e) {
 }
 
 function onSuccess(data, status){
-  alert(data.writer);
-  alert(data.contents);
   var answerTemplate = $("#answerTemplate").html();
   var template = answerTemplate.format(data.writer, new Date(data.createdDate), data.contents, data.answerId, data.answerId);
   $(".qna-comment-slipp-articles").prepend(template);

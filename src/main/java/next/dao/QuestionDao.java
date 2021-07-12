@@ -11,9 +11,20 @@ import java.sql.*;
 import java.util.Collection;
 
 public class QuestionDao {
+    private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
+    private static QuestionDao questionDao;
+
+    private QuestionDao() {
+    }
+
+    public static QuestionDao getInstance() {
+        if (questionDao == null) {
+            questionDao = new QuestionDao();
+        }
+        return questionDao;
+    }
 
     public Question insert(Question question) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "INSERT INTO QUESTIONS (questionId, writer, title, contents, createdDate, countOfAnswer) VALUES (?, ?, ?, ?, ?, ?)";
 
         PreparedStatementCreator preparedStatementCreator = new PreparedStatementCreator() {
@@ -36,7 +47,6 @@ public class QuestionDao {
     }
 
     public Collection<Question> findAll() {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "SELECT * FROM QUESTIONS ORDER BY questionId DESC";
 
         RowMapper<Question> rowMapper = new RowMapper<Question>() {
@@ -55,7 +65,6 @@ public class QuestionDao {
     }
 
     public Question findById(long questionId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "SELECT * FROM QUESTIONS WHERE questionId = ?";
 
         RowMapper<Question> rowMapper = new RowMapper<Question>() {
@@ -71,5 +80,20 @@ public class QuestionDao {
         };
 
         return jdbcTemplate.queryForObject(sql, rowMapper, questionId);
+    }
+
+    public void updateCountOfAnswer(long questionId) {
+        String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer + 1 WHERE questionId = ?";
+        jdbcTemplate.update(sql, questionId);
+    }
+
+    public void update(Question question) {
+        String sql = "UPDATE QUESTIONS SET title = ?, contents = ? WHERE questionId = ?";
+        jdbcTemplate.update(sql, question.getTitle(), question.getContents(), question.getQuestionId());
+    }
+
+    public void delete(long questionId) {
+        String sql = "DELETE FROM QUESTIONS WHERE questionId = ?";
+        jdbcTemplate.update(sql, questionId);
     }
 }

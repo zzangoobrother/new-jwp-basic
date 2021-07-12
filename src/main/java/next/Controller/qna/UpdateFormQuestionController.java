@@ -4,23 +4,26 @@ import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.dao.QuestionDao;
 import next.model.Question;
-import next.model.User;
 import next.web.UserSessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CreateQuestionController extends AbstractController {
+public class UpdateFormQuestionController extends AbstractController {
     private QuestionDao questionDao = QuestionDao.getInstance();
+
     @Override
     public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (!UserSessionUtils.isLogin(request.getSession())) {
             return jspView("redirect:/users/loginForm");
         }
-        User user = UserSessionUtils.getUserFromSession(request.getSession());
-        Question question = new Question(user.getUserId(), request.getParameter("title"),
-                            request.getParameter("contents"));
-        questionDao.insert(question);
-        return jspView("redirect:/");
+
+        long questionId = Long.parseLong(request.getParameter("questionId"));
+        Question question = questionDao.findById(questionId);
+        if (!question.isSameUser(UserSessionUtils.getUserFromSession(request.getSession()))) {
+            throw new IllegalStateException("다른 사용자가 쓴 글을 수정할 수 없습니다.");
+        }
+
+        return jspView("/qna/update.jsp").addObject("question", question);
     }
 }

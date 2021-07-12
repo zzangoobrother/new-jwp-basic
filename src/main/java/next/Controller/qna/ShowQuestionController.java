@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ShowQuestionController extends AbstractController {
-    private QuestionDao questionDao = new QuestionDao();
-    private AnswerDao answerDao = new AnswerDao();
+    private QuestionDao questionDao = QuestionDao.getInstance();
+    private AnswerDao answerDao = AnswerDao.getInstance();
 
     @Override
     public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
