@@ -10,6 +10,14 @@ import java.util.Collection;
 
 public class UserDao {
     private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
+    private static UserDao userDao = new UserDao();
+
+    private UserDao() {
+    }
+
+    public static UserDao getInstance() {
+        return userDao;
+    }
 
     public void insert(User user) {
         String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ListUserController extends AbstractController {
     private static final Logger log = LoggerFactory.getLogger(ListUserController.class);
 
-    private UserDao userDao = new UserDao();
+    private UserDao userDao = UserDao.getInstance();
 
     @Override
     public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
