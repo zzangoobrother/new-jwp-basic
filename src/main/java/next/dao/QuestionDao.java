@@ -79,8 +79,13 @@ public class QuestionDao {
         return jdbcTemplate.queryForObject(sql, rowMapper, questionId);
     }
 
-    public void updateCountOfAnswer(long questionId) {
+    public void updateCountPlusOfAnswer(long questionId) {
         String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer + 1 WHERE questionId = ?";
+        jdbcTemplate.update(sql, questionId);
+    }
+
+    public void updateCountMinusOfAnswer(long questionId) {
+        String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer - 1 WHERE questionId = ?";
         jdbcTemplate.update(sql, questionId);
     }
 

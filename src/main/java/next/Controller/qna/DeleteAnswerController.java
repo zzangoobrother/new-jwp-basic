@@ -4,6 +4,8 @@ import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.Exception.DataAccessException;
 import next.dao.AnswerDao;
+import next.dao.QuestionDao;
+import next.model.Answer;
 import next.model.Result;
 import next.web.UserSessionUtils;
 
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DeleteAnswerController extends AbstractController {
     private AnswerDao answerDao = AnswerDao.getInstance();
+    private QuestionDao questionDao = QuestionDao.getInstance();
 
     @Override
     public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -19,6 +22,8 @@ public class DeleteAnswerController extends AbstractController {
 
         ModelAndView mav = jsonView();
         try {
+            Answer answer = answerDao.findById(answerId);
+            questionDao.updateCountMinusOfAnswer(answer.getQuestionId());
             answerDao.delete(answerId);
             mav.addObject("status", Result.ok());
         } catch (DataAccessException e) {
