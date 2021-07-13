@@ -26,7 +26,7 @@ public class AddAnswerController extends AbstractController {
             return jsonView().addObject("result", Result.fail("Login is required"));
         }
 
-        Answer answer = new Answer(request.getParameter(UserSessionUtils.getUserFromSession(request.getSession()).getUserId()), request.getParameter("contents"),
+        Answer answer = new Answer(UserSessionUtils.getUserFromSession(request.getSession()).getUserId(), request.getParameter("contents"),
                                 Long.parseLong(request.getParameter("questionId")));
         log.debug("answer : {}", answer);
 
