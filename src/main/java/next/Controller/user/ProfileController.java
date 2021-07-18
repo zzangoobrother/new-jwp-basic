@@ -1,7 +1,8 @@
 package next.Controller.user;
 
 import core.db.DataBase;
-import core.mvc.*;
+import core.mvc.AbstractController;
+import core.mvc.ModelAndView;
 import next.model.User;
 
 import javax.servlet.http.HttpServletRequest;

@@ -1,8 +1,6 @@
 package next.Controller;
 
 import core.mvc.AbstractController;
-import core.mvc.Controller;
-import core.mvc.JspView;
 import core.mvc.ModelAndView;
 import next.dao.QuestionDao;
 import org.slf4j.Logger;

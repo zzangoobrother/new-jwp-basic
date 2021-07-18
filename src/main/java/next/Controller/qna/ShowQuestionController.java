@@ -1,14 +1,12 @@
 package next.Controller.qna;
 
-import core.mvc.*;
+import core.mvc.AbstractController;
+import core.mvc.ModelAndView;
 import next.dao.AnswerDao;
 import next.dao.QuestionDao;
-import next.model.Answer;
-import next.model.Question;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 public class ShowQuestionController extends AbstractController {
     private QuestionDao questionDao = QuestionDao.getInstance();

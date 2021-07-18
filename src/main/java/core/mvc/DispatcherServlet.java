@@ -37,7 +37,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Object handler = getHandler(request);
-        if (handler != null) {
+        if (handler == null) {
             throw new IllegalArgumentException("존재하지 않는 URL입니다.");
         }
 

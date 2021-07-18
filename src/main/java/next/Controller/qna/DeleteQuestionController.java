@@ -3,17 +3,11 @@ package next.Controller.qna;
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.Exception.CannotDeleteException;
-import next.dao.AnswerDao;
-import next.dao.QuestionDao;
-import next.model.Answer;
-import next.model.Question;
-import next.model.Result;
 import next.service.QnaService;
 import next.web.UserSessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 public class DeleteQuestionController extends AbstractController {
     private QnaService qnaService = QnaService.getInstance();
