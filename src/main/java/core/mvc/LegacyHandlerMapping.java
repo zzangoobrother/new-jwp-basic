@@ -1,16 +1,18 @@
 package core.mvc;
 
+import core.nmvc.HandlerMapping;
 import next.Controller.*;
 import next.Controller.qna.*;
 import next.Controller.user.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestMapping {
-    private static final Logger log = LoggerFactory.getLogger(RequestMapping.class);
+public class LegacyHandlerMapping implements HandlerMapping {
+    private static final Logger log = LoggerFactory.getLogger(LegacyHandlerMapping.class);
     private Map<String, Controller> mappings = new HashMap<>();
 
     void initMapping() {
@@ -44,5 +46,10 @@ public class RequestMapping {
 
     void put(String url, Controller controller) {
         mappings.put(url, controller);
+    }
+
+    @Override
+    public Object getHandler(HttpServletRequest request) {
+        return mappings.get(request.getRequestURI());
     }
 }
