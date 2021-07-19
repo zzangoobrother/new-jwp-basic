@@ -24,7 +24,7 @@ public class AnnotationHandlerMappingTest {
     public void list() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/users");
         HandlerExecution handler = handlerMapping.getHandler(request);
-        ModelAndView mav = handler.handle(request, response);
+        ModelAndView mav = handler.execute(request, response);
         mav.getView().render(mav.getModel(), request, response);
         assertEquals("/users/list.jsp", response.getForwardedUrl());
     }

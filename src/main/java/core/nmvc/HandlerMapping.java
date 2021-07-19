@@ -1,7 +1,9 @@
 package core.nmvc;
 
+import core.mvc.Controller;
+
 import javax.servlet.http.HttpServletRequest;
 
 public interface HandlerMapping {
-    Object getHandler(HttpServletRequest request);
+    Controller getHandler(HttpServletRequest request);
 }
