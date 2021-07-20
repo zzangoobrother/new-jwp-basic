@@ -2,25 +2,30 @@ package next.service;
 
 import next.Exception.CannotDeleteException;
 import next.dao.AnswerDao;
+import next.dao.JdbcAnswerDao;
+import next.dao.JdbcQuestionDao;
 import next.dao.QuestionDao;
 import next.model.Answer;
 import next.model.Question;
-import next.model.Result;
 import next.model.User;
-import next.web.UserSessionUtils;
 
 import java.util.List;
 
 public class QnaService {
-    private QuestionDao questionDao = QuestionDao.getInstance();
-    private AnswerDao answerDao = AnswerDao.getInstance();
+    private QuestionDao questionDao;
+    private AnswerDao answerDao;
 
-    private static QnaService qnaService = new QnaService();
+    private static QnaService qnaService;
 
-    private QnaService() {
+    private QnaService(QuestionDao questionDao, AnswerDao answerDao) {
+        this.questionDao = questionDao;
+        this.answerDao = answerDao;
     }
 
-    public static QnaService getInstance() {
+    public static QnaService getInstance(QuestionDao questionDao, AnswerDao answerDao) {
+        if (qnaService == null) {
+            qnaService = new QnaService(questionDao, answerDao);
+        }
         return qnaService;
     }
 
