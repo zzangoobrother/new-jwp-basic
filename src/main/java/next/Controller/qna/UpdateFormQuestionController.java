@@ -2,7 +2,7 @@ package next.Controller.qna;
 
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
-import next.dao.JdbcQuestionDao;
+import next.dao.QuestionDao;
 import next.model.Question;
 import next.web.UserSessionUtils;
 
@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class UpdateFormQuestionController extends AbstractController {
-    private JdbcQuestionDao jdbcQuestionDao = JdbcQuestionDao.getInstance();
+    private QuestionDao questionDao;
+
+    public UpdateFormQuestionController(QuestionDao questionDao) {
+        this.questionDao = questionDao;
+    }
 
     @Override
     public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -19,7 +23,7 @@ public class UpdateFormQuestionController extends AbstractController {
         }
 
         long questionId = Long.parseLong(request.getParameter("questionId"));
-        Question question = jdbcQuestionDao.findById(questionId);
+        Question question = questionDao.findById(questionId);
         if (!question.isSameUser(UserSessionUtils.getUserFromSession(request.getSession()))) {
             throw new IllegalStateException("다른 사용자가 쓴 글을 수정할 수 없습니다.");
         }

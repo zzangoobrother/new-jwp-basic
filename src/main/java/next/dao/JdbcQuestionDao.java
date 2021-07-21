@@ -11,13 +11,8 @@ import java.util.Collection;
 
 public class JdbcQuestionDao implements QuestionDao {
     private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
-    private static JdbcQuestionDao jdbcQuestionDao = new JdbcQuestionDao();
 
-    private JdbcQuestionDao() {
-    }
-
-    public static JdbcQuestionDao getInstance() {
-        return jdbcQuestionDao;
+    public JdbcQuestionDao() {
     }
 
     @Override

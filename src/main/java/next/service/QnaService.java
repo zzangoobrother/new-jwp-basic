@@ -2,8 +2,6 @@ package next.service;
 
 import next.Exception.CannotDeleteException;
 import next.dao.AnswerDao;
-import next.dao.JdbcAnswerDao;
-import next.dao.JdbcQuestionDao;
 import next.dao.QuestionDao;
 import next.model.Answer;
 import next.model.Question;
@@ -17,7 +15,7 @@ public class QnaService {
 
     private static QnaService qnaService;
 
-    private QnaService(QuestionDao questionDao, AnswerDao answerDao) {
+    public QnaService(QuestionDao questionDao, AnswerDao answerDao) {
         this.questionDao = questionDao;
         this.answerDao = answerDao;
     }

@@ -11,13 +11,8 @@ import java.util.List;
 
 public class JdbcAnswerDao implements AnswerDao {
     private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
-    private static JdbcAnswerDao jdbcAnswerDao = new JdbcAnswerDao();
 
-    private JdbcAnswerDao() {
-    }
-
-    public static JdbcAnswerDao getInstance() {
-        return jdbcAnswerDao;
+    public JdbcAnswerDao() {
     }
 
     @Override
