@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 import static next.model.UserTest.newUser;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class QnaServiceTest {
@@ -34,10 +36,11 @@ public class QnaServiceTest {
 
     @Test(expected = CannotDeleteException.class)
     public void deleteQuestion_없는_질문() throws Exception {
+        when(questionDao.findById(1L)).thenReturn(null);
         qnaService.deleteQuestion(1L, newUser("userId"));
     }
 
-    @Test(expected = CannotDeleteException.class)
+    @Test
     public void deleteQuestion_삭제할수_있음() throws Exception {
         User user = newUser("userId");
         Question question = new Question(1L, user.getUserId(), "title", "contents", new Date(), 0) {
@@ -45,8 +48,10 @@ public class QnaServiceTest {
               return true;
           };
         };
+        when(questionDao.findById(1L)).thenReturn(question);
 
         qnaService.deleteQuestion(1L, newUser("userId"));
+        verify(questionDao).delete(question.getQuestionId());
     }
 
     @Test(expected = CannotDeleteException.class)
@@ -57,6 +62,7 @@ public class QnaServiceTest {
                 throw new CannotDeleteException("삭제할 수 없음");
             };
         };
+        when(questionDao.findById(1L)).thenReturn(question);
 
         qnaService.deleteQuestion(1L, newUser("userId"));
     }

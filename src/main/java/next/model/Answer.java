@@ -46,6 +46,10 @@ public class Answer {
         return questionId;
     }
 
+    public boolean canDelete(User user) {
+        return user.isSameUser(this.writer);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
