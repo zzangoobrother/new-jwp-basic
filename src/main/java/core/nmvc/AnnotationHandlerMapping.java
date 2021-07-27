@@ -2,15 +2,18 @@ package core.nmvc;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import core.annotation.Controller;
 import core.annotation.RequestMapping;
 import core.annotation.RequestMethod;
+import core.di.factory.ApplicationContext;
 import core.di.factory.BeanFactory;
-import core.di.factory.BeanScanner;
+import core.di.factory.ClasspathBeanDefinitionScanner;
 import org.reflections.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
@@ -26,11 +29,12 @@ public class AnnotationHandlerMapping implements HandlerMapping {
     }
 
     public void initialize() {
-        BeanScanner beanScanner = new BeanScanner(basePackage);
-        BeanFactory beanFactory = new BeanFactory(beanScanner.scan());
+        ApplicationContext ac = new ApplicationContext(basePackage);
+        Map<Class<?>, Object> controllers = getControllers(ac);
+        BeanFactory beanFactory = new BeanFactory();
+        ClasspathBeanDefinitionScanner beanScanner = new ClasspathBeanDefinitionScanner(beanFactory);
+        beanScanner.doScan(basePackage);
         beanFactory.initialize();
-
-        Map<Class<?>, Object> controllers = beanFactory.getControllers();
 
         Set<Method> methods = getRequestMappingMethods(controllers.keySet());
 
@@ -61,5 +65,16 @@ public class AnnotationHandlerMapping implements HandlerMapping {
         log.debug("requestUri : {}, requestMethod : {}", requestURI, requestMethod);
 
         return handlerExecutions.get(new HandlerKey(requestURI, requestMethod));
+    }
+
+    public Map<Class<?>, Object> getControllers(ApplicationContext ac) {
+        Map<Class<?>, Object> controllers = Maps.newHashMap();
+        for (Class<?> clazz : ac.getBeanClasses()) {
+            Annotation annotation = clazz.getAnnotation(Controller.class);
+            if (annotation != null) {
+                controllers.put(clazz, ac.getBean(clazz));
+            }
+        }
+        return controllers;
     }
 }
