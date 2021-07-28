@@ -1,11 +1,11 @@
 package core.di.factory;
 
 import com.google.common.collect.Sets;
-import core.annotation.Controller;
-import core.annotation.Repository;
-import core.annotation.Service;
 import core.di.factory.example.MyQnaService;
+import core.di.factory.example.MyUserController;
+import core.di.factory.example.MyUserService;
 import core.di.factory.example.QnaController;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.reflections.Reflections;
@@ -21,9 +21,10 @@ public class BeanFactoryTest {
 
     @Before
     public void init() {
-        reflections = new Reflections("core.di.factory.example");
-        Set<Class<?>> preInstanticateClazz = getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
-        beanFactory = new BeanFactory(preInstanticateClazz);
+        //reflections = new Reflections("core.di.factory.example");
+        beanFactory = new BeanFactory();
+        ClasspathBeanDefinitionScanner scanner = new ClasspathBeanDefinitionScanner(beanFactory);
+        scanner.doScan("core.di.factory.example");
         beanFactory.initialize();
     }
 
@@ -45,5 +46,25 @@ public class BeanFactoryTest {
         MyQnaService myQnaService = qnaController.getMyQnaService();
         assertNotNull(myQnaService.getUserRepository());
         assertNotNull(myQnaService.getQuestionRepository());
+    }
+
+    @Test
+    public void fieldDi() throws Exception {
+        MyUserService myUserService = beanFactory.getBean(MyUserService.class);
+        assertNotNull(myUserService);
+        assertNotNull(myUserService.getUserRepository());
+    }
+
+    @Test
+    public void setterDi() throws Exception {
+        MyUserController myUserController = beanFactory.getBean(MyUserController.class);
+
+        assertNotNull(myUserController);
+        assertNotNull(myUserController.getMyUserService());
+    }
+
+    @After
+    public void tearDown() {
+        beanFactory.clear();
     }
 }
