@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "dispatcher", urlPatterns = "/", loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(DispatcherServlet.class);
     private static final String DEFAULT_REDIRECT_PREFIX = "redirect:";
@@ -21,18 +20,24 @@ public class DispatcherServlet extends HttpServlet {
     private List<HandlerMapping> mappings = Lists.newArrayList();
     private List<HandlerAdapter> handlerAdapters = Lists.newArrayList();
 
+    private HandlerMapping handlerMapping;
+
+    public DispatcherServlet(HandlerMapping handlerMapping) {
+        this.handlerMapping = handlerMapping;
+    }
+
     @Override
     public void init() throws ServletException {
-        LegacyHandlerMapping rm = new LegacyHandlerMapping();
-        rm.initMapping();
+//        LegacyHandlerMapping rm = new LegacyHandlerMapping();
+//        rm.initMapping();
+          // MyWebApplicationInitializer에서 초기화 수행
+//        AnnotationHandlerMapping ahm = new AnnotationHandlerMapping("next.Controller");
+//        ahm.initialize();
 
-        AnnotationHandlerMapping ahm = new AnnotationHandlerMapping("next.Controller");
-        ahm.initialize();
+//        mappings.add(rm);
+        mappings.add(handlerMapping);
 
-        mappings.add(rm);
-        mappings.add(ahm);
-
-        handlerAdapters.add(new ControllerHandlerAdapter());
+//        handlerAdapters.add(new ControllerHandlerAdapter());
         handlerAdapters.add(new HandlerExecutionHandlerAdapter());
     }
 

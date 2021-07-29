@@ -1,4 +1,4 @@
-package next.Controller.qna;
+package next.controller.qna;
 
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
