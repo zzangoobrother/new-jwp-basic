@@ -1,6 +1,7 @@
-package next.controller.qna;
+package next.Controller.qna;
 
 import core.annotation.Controller;
+import core.annotation.Inject;
 import core.annotation.RequestMapping;
 import core.annotation.RequestMethod;
 import core.mvc.ModelAndView;
@@ -13,20 +14,17 @@ import next.model.Answer;
 import next.model.Result;
 import next.service.QnaService;
 import next.web.UserSessionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class ApiQuestionController extends AbstractNewController {
-    private static final Logger log = LoggerFactory.getLogger(ApiQuestionController.class);
-
     private QnaService qnaService;
     private QuestionDao questionDao;
     private AnswerDao answerDao;
 
+    @Inject
     public ApiQuestionController(QnaService qnaService, QuestionDao questionDao, AnswerDao answerDao) {
         this.qnaService = qnaService;
         this.questionDao = questionDao;
@@ -41,7 +39,6 @@ public class ApiQuestionController extends AbstractNewController {
 
         Answer answer = new Answer(UserSessionUtils.getUserFromSession(request.getSession()).getUserId(), request.getParameter("contents"),
                 Long.parseLong(request.getParameter("questionId")));
-        log.debug("answer : {}", answer);
 
         Answer savedAnswer = answerDao.insert(answer);
         questionDao.updateCountPlusOfAnswer(savedAnswer.getQuestionId());

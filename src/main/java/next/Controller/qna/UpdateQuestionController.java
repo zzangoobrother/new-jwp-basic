@@ -1,4 +1,4 @@
-package next.controller.qna;
+package next.Controller.qna;
 
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
@@ -9,10 +9,10 @@ import next.web.UserSessionUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UpdateFormQuestionController extends AbstractController {
+public class UpdateQuestionController extends AbstractController {
     private QuestionDao questionDao;
 
-    public UpdateFormQuestionController(QuestionDao questionDao) {
+    public UpdateQuestionController(QuestionDao questionDao) {
         this.questionDao = questionDao;
     }
 
@@ -28,6 +28,10 @@ public class UpdateFormQuestionController extends AbstractController {
             throw new IllegalStateException("다른 사용자가 쓴 글을 수정할 수 없습니다.");
         }
 
-        return jspView("/qna/update.jsp").addObject("question", question);
+        Question newQuestion = new Question(question.getWriter(), request.getParameter("title"),
+                request.getParameter("contents"));
+        question.update(newQuestion);
+        questionDao.update(newQuestion);
+        return jspView("redirect:/");
     }
 }

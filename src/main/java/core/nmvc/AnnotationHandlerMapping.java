@@ -31,17 +31,11 @@ public class AnnotationHandlerMapping implements HandlerMapping {
     public void initialize() {
         ApplicationContext ac = new ApplicationContext(basePackage);
         Map<Class<?>, Object> controllers = getControllers(ac);
-        BeanFactory beanFactory = new BeanFactory();
-        ClasspathBeanDefinitionScanner beanScanner = new ClasspathBeanDefinitionScanner(beanFactory);
-        beanScanner.doScan(basePackage);
-        beanFactory.initialize();
-
         Set<Method> methods = getRequestMappingMethods(controllers.keySet());
 
         for (Method method : methods) {
             RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
             log.debug("register handlerExecution : url is {}, method is {}", requestMapping.value(), method);
-
             handlerExecutions.put(createHandlerKey(requestMapping), new HandlerExecution(controllers.get(method.getDeclaringClass()), method));
         }
     }
@@ -55,7 +49,6 @@ public class AnnotationHandlerMapping implements HandlerMapping {
         for (Class<?> clazz : controllers) {
             requestMappingMethods.addAll(ReflectionUtils.getAllMethods(clazz, ReflectionUtils.withAnnotation(RequestMapping.class)));
         }
-
         return requestMappingMethods;
     }
 

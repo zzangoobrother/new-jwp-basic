@@ -1,5 +1,7 @@
 package next.dao;
 
+import core.annotation.Inject;
+import core.annotation.Repository;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.KeyHolder;
 import core.jdbc.PreparedStatementCreator;
@@ -9,10 +11,13 @@ import next.model.Answer;
 import java.sql.*;
 import java.util.List;
 
+@Repository
 public class JdbcAnswerDao implements AnswerDao {
-    private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
+    private JdbcTemplate jdbcTemplate;
 
-    public JdbcAnswerDao() {
+    @Inject
+    public JdbcAnswerDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

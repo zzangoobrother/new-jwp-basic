@@ -1,12 +1,6 @@
 package core.mvc;
 
 import core.nmvc.HandlerMapping;
-import next.controller.qna.*;
-import next.dao.AnswerDao;
-import next.dao.JdbcAnswerDao;
-import next.dao.JdbcQuestionDao;
-import next.dao.QuestionDao;
-import next.service.QnaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

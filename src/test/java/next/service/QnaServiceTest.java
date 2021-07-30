@@ -31,7 +31,7 @@ public class QnaServiceTest {
 
     @Before
     public void init() {
-        qnaService = QnaService.getInstance(questionDao, answerDao);
+        qnaService = new QnaService(questionDao, answerDao);
     }
 
     @Test(expected = CannotDeleteException.class)

@@ -1,4 +1,4 @@
-package next.controller.qna;
+package next.Controller.qna;
 
 import core.annotation.Controller;
 import core.annotation.Inject;

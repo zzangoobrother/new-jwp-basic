@@ -1,7 +1,10 @@
 package core.jdbc;
 
+import core.annotation.Component;
+import core.annotation.Inject;
 import next.Exception.DataAccessException;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,15 +12,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcTemplate {
 
-    private static JdbcTemplate jdbcTemplate = new JdbcTemplate();
-
+    @Inject
     private JdbcTemplate() {
-    }
 
-    public static JdbcTemplate getInstance() {
-        return jdbcTemplate;
     }
 
     public void update(String sql, PreparedStatementSetter pss) throws DataAccessException {

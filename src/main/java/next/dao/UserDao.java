@@ -1,22 +1,20 @@
 package next.dao;
 
+import core.annotation.Inject;
+import core.annotation.Repository;
 import core.jdbc.JdbcTemplate;
-import core.jdbc.RowMapper;
 import next.model.User;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Collection;
 
+@Repository
 public class UserDao {
-    private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
-    private static UserDao userDao = new UserDao();
+    private JdbcTemplate jdbcTemplate;
 
-    private UserDao() {
-    }
-
-    public static UserDao getInstance() {
-        return userDao;
+    @Inject
+    public UserDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void insert(User user) {

@@ -1,22 +1,20 @@
-package next.controller;
+package next.Controller;
 
 import core.annotation.Controller;
+import core.annotation.Inject;
 import core.annotation.RequestMapping;
 import core.mvc.ModelAndView;
 import core.nmvc.AbstractNewController;
 import next.dao.QuestionDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController extends AbstractNewController {
-    private static final Logger log = LoggerFactory.getLogger(HomeController.class);
-
     private QuestionDao questionDao;
 
+    @Inject
     public HomeController(QuestionDao questionDao) {
         this.questionDao = questionDao;
     }

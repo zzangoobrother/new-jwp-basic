@@ -1,6 +1,7 @@
 package next.dao;
 
 import core.jdbc.ConnectionManager;
+import core.jdbc.JdbcTemplate;
 import next.model.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +14,19 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class UserDaoTest {
+    private UserDao userDao;
+
     @Before
     public void init() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("jwp.sql"));
         DatabasePopulatorUtils.execute(populator, ConnectionManager.getDataSource());
+//        userDao = new UserDao(new JdbcTemplate(ConnectionManager.getDataSource()));
     }
 
     @Test
     public void crud() throws Exception {
         User expected = new User("userId", "password", "name", "javajigi@email.com");
-        UserDao userDao = UserDao.getInstance();
         userDao.insert(expected);
 
         User actual = userDao.findByUserId(expected.getUserId());
@@ -37,7 +40,6 @@ public class UserDaoTest {
 
     @Test
     public void findAll() throws Exception {
-        UserDao userDao = UserDao.getInstance();
         List<User> users = (List<User>) userDao.findAll();
         assertEquals(1, users.size());
     }

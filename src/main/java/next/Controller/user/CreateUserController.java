@@ -1,4 +1,4 @@
-package next.controller.user;
+package next.Controller.user;
 
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateUserController extends AbstractController {
     private static final Logger log = LoggerFactory.getLogger(CreateUserController.class);
 
-    private UserDao userDao = UserDao.getInstance();
+    private UserDao userDao;
+
+    public CreateUserController(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
