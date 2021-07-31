@@ -1,5 +1,6 @@
 package next.config;
 
+import core.di.factory.AnnotationConfigApplicationContext;
 import core.mvc.DispatcherServlet;
 import core.nmvc.AnnotationHandlerMapping;
 import core.web.WebApplicationInitializer;
@@ -15,7 +16,7 @@ public class MyWebApplicationInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping("core", "next");
+        AnnotationHandlerMapping annotationHandlerMapping = new AnnotationHandlerMapping(new AnnotationConfigApplicationContext(MyConfiguration.class));
         annotationHandlerMapping.initialize();
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(annotationHandlerMapping));
         dispatcher.setLoadOnStartup(1);
