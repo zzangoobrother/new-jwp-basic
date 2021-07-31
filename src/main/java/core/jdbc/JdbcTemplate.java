@@ -14,10 +14,11 @@ import java.util.List;
 
 @Component
 public class JdbcTemplate {
+    private DataSource dataSource;
 
     @Inject
-    private JdbcTemplate() {
-
+    public JdbcTemplate(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public void update(String sql, PreparedStatementSetter pss) throws DataAccessException {
