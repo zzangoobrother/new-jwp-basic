@@ -22,7 +22,7 @@ public class JdbcTemplate {
     }
 
     public void update(String sql, PreparedStatementSetter pss) throws DataAccessException {
-        try(Connection con = ConnectionManager.getConnection();
+        try(Connection con = dataSource.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql)) {
             pss.setValues(pstmt);
             pstmt.executeUpdate();
@@ -36,7 +36,7 @@ public class JdbcTemplate {
     }
 
     public void update(PreparedStatementCreator psc, KeyHolder key) {
-        try(Connection con = ConnectionManager.getConnection();
+        try(Connection con = dataSource.getConnection();
             PreparedStatement pstmt = psc.createPreparedStatement(con)) {
             pstmt.executeUpdate();
 
@@ -54,7 +54,7 @@ public class JdbcTemplate {
         ResultSet rs = null;
 
         List<T> users = new ArrayList<>();
-        try(Connection con = ConnectionManager.getConnection();
+        try(Connection con = dataSource.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql)) {
             pss.setValues(pstmt);
             rs = pstmt.executeQuery();

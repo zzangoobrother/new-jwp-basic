@@ -2,6 +2,7 @@ package core.di.factory;
 
 import com.google.common.collect.Sets;
 import core.annotation.Inject;
+import core.annotation.PostConstruct;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;

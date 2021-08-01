@@ -1,17 +1,12 @@
 package core.di.factory;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import core.annotation.Bean;
-import org.reflections.ReflectionUtils;
+import core.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import javax.annotation.PostConstruct;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -46,6 +41,7 @@ public class BeanFactory implements BeanDefinitionRegistry {
         if (beanDefinition != null && beanDefinition instanceof AnnotatedBeanDefinition) {
             Optional<Object> optionalBean = createAnnotatedBean(beanDefinition);
             optionalBean.ifPresent(b -> beans.put(clazz, b));
+            initialize(bean, clazz);
             return (T) optionalBean.orElse(null);
         }
 
@@ -57,11 +53,20 @@ public class BeanFactory implements BeanDefinitionRegistry {
         beanDefinition = beanDefinitions.get(concreteClass.get());
         bean = inject(beanDefinition);
         beans.put(concreteClass.get(), bean);
+        initialize(bean, concreteClass.get());
         return (T) bean;
     }
 
     private void initialize(Object bean, Class<?> beanClass) {
         Set<Method> initializeMethods = BeanFactoryUtils.getBeanMethods(beanClass, PostConstruct.class);
+        if (initializeMethods.isEmpty()) {
+            return;
+        }
+
+        for (Method initializeMethod : initializeMethods) {
+            log.debug("@PostConsturct Initialize Method : {}", initializeMethod);
+            BeanFactoryUtils.invokeMethod(initializeMethod, bean, populateArguments(initializeMethod.getParameterTypes()));
+        }
     }
 
     private Optional<Object> createAnnotatedBean(BeanDefinition beanDefinition) {
