@@ -5,8 +5,8 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 
 public class ConstructorInjector extends AbstractInjector {
-    public ConstructorInjector(BeanFactory beanFactory) {
-        super(beanFactory);
+    public ConstructorInjector(DefaultBeanFactory defaultBeanFactory) {
+        super(defaultBeanFactory);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ConstructorInjector extends AbstractInjector {
     }
 
     @Override
-    void inject(Object injectedBean, Object bean, BeanFactory beanFactory) {
+    void inject(Object injectedBean, Object bean, DefaultBeanFactory defaultBeanFactory) {
 
     }
 }

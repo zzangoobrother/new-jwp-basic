@@ -10,8 +10,8 @@ import java.util.Set;
 public class SetterInjector extends AbstractInjector {
     private Logger log = LoggerFactory.getLogger(SetterInjector.class);
 
-    public SetterInjector(BeanFactory beanFactory) {
-        super(beanFactory);
+    public SetterInjector(DefaultBeanFactory defaultBeanFactory) {
+        super(defaultBeanFactory);
     }
 
     @Override
@@ -32,10 +32,10 @@ public class SetterInjector extends AbstractInjector {
     }
 
     @Override
-    void inject(Object injectedBean, Object bean, BeanFactory beanFactory) {
+    void inject(Object injectedBean, Object bean, DefaultBeanFactory defaultBeanFactory) {
         Method method = (Method) injectedBean;
         try {
-            method.invoke(beanFactory.getBean(method.getDeclaringClass()), bean);
+            method.invoke(defaultBeanFactory.getBean(method.getDeclaringClass()), bean);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             log.error(e.getMessage());
         }

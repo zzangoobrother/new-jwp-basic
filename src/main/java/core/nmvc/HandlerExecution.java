@@ -1,7 +1,7 @@
 package core.nmvc;
 
 import core.mvc.Controller;
-import core.mvc.ModelAndView;
+import core.view.ModelAndView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,7 +1,7 @@
 package next.Controller.qna;
 
 import core.mvc.AbstractController;
-import core.mvc.ModelAndView;
+import core.view.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

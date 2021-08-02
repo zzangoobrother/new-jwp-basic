@@ -9,8 +9,8 @@ import java.util.Set;
 public class FieldInjector extends AbstractInjector {
     private Logger log = LoggerFactory.getLogger(FieldInjector.class);
 
-    public FieldInjector(BeanFactory beanFactory) {
-        super(beanFactory);
+    public FieldInjector(DefaultBeanFactory defaultBeanFactory) {
+        super(defaultBeanFactory);
     }
 
     @Override
@@ -25,11 +25,11 @@ public class FieldInjector extends AbstractInjector {
     }
 
     @Override
-    void inject(Object injectedBean, Object bean, BeanFactory beanFactory) {
+    void inject(Object injectedBean, Object bean, DefaultBeanFactory defaultBeanFactory) {
         Field field = (Field) injectedBean;
         try {
             field.setAccessible(true);
-            field.set(beanFactory.getBean(field.getDeclaringClass()), bean);
+            field.set(defaultBeanFactory.getBean(field.getDeclaringClass()), bean);
         } catch (IllegalAccessException | IllegalArgumentException e) {
             log.error(e.getMessage());
         }

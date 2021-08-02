@@ -1,7 +1,9 @@
-package core.di.factory;
+package core.di.context.annotation;
 
 import com.google.common.collect.Sets;
 import core.annotation.*;
+import core.di.factory.DefaultBeanDefinition;
+import core.di.factory.BeanDefinitionRegistry;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
@@ -18,7 +20,7 @@ public class ClasspathBeanDefinitionScanner {
         Reflections reflections = new Reflections(basePackages);
         Set<Class<?>> beanClasses = getTypesAnnotatedWith(reflections, Controller.class, Service.class, Repository.class, Component.class, Configuration.class);
         for (Class<?> clazz : beanClasses) {
-            beanDefinitionRegistry.registerBeanDefinition(clazz, new BeanDefinition(clazz));
+            beanDefinitionRegistry.registerBeanDefinition(clazz, new DefaultBeanDefinition(clazz));
         }
     }
 

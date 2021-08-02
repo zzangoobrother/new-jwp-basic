@@ -3,8 +3,8 @@ package core.nmvc;
 import core.annotation.Controller;
 import core.annotation.RequestMapping;
 import core.annotation.RequestMethod;
-import core.mvc.JspView;
-import core.mvc.ModelAndView;
+import core.view.JspView;
+import core.view.ModelAndView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

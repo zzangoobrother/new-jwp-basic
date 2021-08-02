@@ -1,21 +1,17 @@
 package core.di.factory;
 
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 
-import java.lang.reflect.Constructor;
-import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractInjector implements Injector {
     private Logger log = LoggerFactory.getLogger(AbstractInjector.class);
 
-    private BeanFactory beanFactory;
+    private DefaultBeanFactory defaultBeanFactory;
 
-    public AbstractInjector(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
+    public AbstractInjector(DefaultBeanFactory defaultBeanFactory) {
+        this.defaultBeanFactory = defaultBeanFactory;
     }
 
     @Override
@@ -32,7 +28,7 @@ public abstract class AbstractInjector implements Injector {
 
     abstract Class<?> getBeanClass(Object injectedBean);
 
-    abstract void inject(Object injectedBean, Object bean, BeanFactory beanFactory);
+    abstract void inject(Object injectedBean, Object bean, DefaultBeanFactory defaultBeanFactory);
 
 //    private Object instantiateClass(Class<?> clazz) {
 //        Class<?> concreteClass = findBeanClass(clazz, beanFactory.getPreInstanticateBeans());

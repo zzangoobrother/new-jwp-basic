@@ -1,8 +1,8 @@
 package core.nmvc;
 
-import core.mvc.JsonView;
-import core.mvc.JspView;
-import core.mvc.ModelAndView;
+import core.view.JsonView;
+import core.view.JspView;
+import core.view.ModelAndView;
 
 public class AbstractNewController {
     protected ModelAndView jspView(String forwardUrl) {

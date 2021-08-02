@@ -1,7 +1,7 @@
 package core.nmvc;
 
-import core.di.factory.AnnotationConfigApplicationContext;
-import core.mvc.ModelAndView;
+import core.di.context.AnnotationConfigApplicationContext;
+import core.view.ModelAndView;
 import next.config.MyConfiguration;
 import org.junit.Before;
 import org.junit.Test;

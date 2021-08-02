@@ -4,7 +4,7 @@ import core.annotation.Controller;
 import core.annotation.Inject;
 import core.annotation.RequestMapping;
 import core.annotation.RequestMethod;
-import core.mvc.ModelAndView;
+import core.view.ModelAndView;
 import core.nmvc.AbstractNewController;
 import next.Exception.CannotDeleteException;
 import next.dao.AnswerDao;

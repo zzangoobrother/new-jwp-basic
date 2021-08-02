@@ -50,6 +50,14 @@ public class Answer {
         return user.isSameUser(this.writer);
     }
 
+    public boolean isSameUser(User user) {
+        return user.isSameUser(this.writer);
+    }
+
+    public void update(Answer newAnswer) {
+        this.contents = newAnswer.contents;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

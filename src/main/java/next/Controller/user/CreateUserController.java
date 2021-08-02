@@ -1,7 +1,7 @@
 package next.Controller.user;
 
 import core.mvc.AbstractController;
-import core.mvc.ModelAndView;
+import core.view.ModelAndView;
 import next.dao.UserDao;
 import next.model.User;
 import org.slf4j.Logger;

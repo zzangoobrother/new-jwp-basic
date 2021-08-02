@@ -1,12 +1,11 @@
-package core.mvc;
+package core.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import core.view.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 public class JsonView implements View {

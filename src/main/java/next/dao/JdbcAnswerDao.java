@@ -7,6 +7,7 @@ import core.jdbc.KeyHolder;
 import core.jdbc.PreparedStatementCreator;
 import core.jdbc.RowMapper;
 import next.model.Answer;
+import next.model.Question;
 
 import java.sql.*;
 import java.util.List;

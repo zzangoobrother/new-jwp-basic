@@ -1,6 +1,6 @@
 package core.nmvc;
 
-import core.mvc.ModelAndView;
+import core.view.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,6 +1,7 @@
 package core.di.factory;
 
 import com.google.common.collect.Sets;
+import core.di.context.annotation.ClasspathBeanDefinitionScanner;
 import core.di.factory.example.MyQnaService;
 import core.di.factory.example.MyUserController;
 import core.di.factory.example.MyUserService;
@@ -15,17 +16,17 @@ import java.util.Set;
 
 import static org.junit.Assert.assertNotNull;
 
-public class BeanFactoryTest {
+public class DefaultBeanFactoryTest {
     private Reflections reflections;
-    private BeanFactory beanFactory;
+    private DefaultBeanFactory defaultBeanFactory;
 
     @Before
     public void init() {
         //reflections = new Reflections("core.di.factory.example");
-        beanFactory = new BeanFactory();
-        ClasspathBeanDefinitionScanner scanner = new ClasspathBeanDefinitionScanner(beanFactory);
+        defaultBeanFactory = new DefaultBeanFactory();
+        ClasspathBeanDefinitionScanner scanner = new ClasspathBeanDefinitionScanner(defaultBeanFactory);
         scanner.doScan("core.di.factory.example");
-        beanFactory.initialize();
+        defaultBeanFactory.preInstantiateSinglonetons();
     }
 
     private Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation>... annotations) {
@@ -38,7 +39,7 @@ public class BeanFactoryTest {
 
     @Test
     public void di() throws Exception {
-        QnaController qnaController = beanFactory.getBean(QnaController.class);
+        QnaController qnaController = defaultBeanFactory.getBean(QnaController.class);
 
         assertNotNull(qnaController);
         assertNotNull(qnaController.getMyQnaService());
@@ -50,14 +51,14 @@ public class BeanFactoryTest {
 
     @Test
     public void fieldDi() throws Exception {
-        MyUserService myUserService = beanFactory.getBean(MyUserService.class);
+        MyUserService myUserService = defaultBeanFactory.getBean(MyUserService.class);
         assertNotNull(myUserService);
         assertNotNull(myUserService.getUserRepository());
     }
 
     @Test
     public void setterDi() throws Exception {
-        MyUserController myUserController = beanFactory.getBean(MyUserController.class);
+        MyUserController myUserController = defaultBeanFactory.getBean(MyUserController.class);
 
         assertNotNull(myUserController);
         assertNotNull(myUserController.getMyUserService());
@@ -65,6 +66,6 @@ public class BeanFactoryTest {
 
     @After
     public void tearDown() {
-        beanFactory.clear();
+        defaultBeanFactory.clear();
     }
 }
