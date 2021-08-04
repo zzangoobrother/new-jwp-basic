@@ -28,11 +28,6 @@ public class MockAnswerDao implements AnswerDao {
     }
 
     @Override
-    public void update(Answer answer) {
-
-    }
-
-    @Override
     public void delete(long answerId) {
         answers.remove(answerId);
     }

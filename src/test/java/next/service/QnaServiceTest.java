@@ -8,9 +8,7 @@ import next.model.Question;
 import next.model.User;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +17,7 @@ import static next.model.UserTest.newUser;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class QnaServiceTest {
     private QnaService qnaService;
 
