@@ -17,17 +17,17 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = { "ormNext.repository" })
-@ComponentScan("ormNext.repository")
+@ComponentScan({"ormNext", "ormCore"})
 public class PersistenceJPAConfig {
 
-    @Bean(destroyMethod = "close")
+    @Bean
     public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:~/jwp-basic;AUTO_SERVER=TRUE");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("");
-        return dataSource;
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName("org.h2.Driver");
+        ds.setUrl("jdbc:h2:~/jwp-basic;AUTO_SERVER=TRUE");
+        ds.setUsername("sa");
+        ds.setPassword("");
+        return ds;
     }
 
     @Bean
